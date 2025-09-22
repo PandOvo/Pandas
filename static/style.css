@@ -1,0 +1,22 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", Arial, sans-serif; background:#f3f4f6; color:#1f2937; }
+.wrap { max-width: 900px; margin: 24px auto; background:#fff; border-radius: 12px; padding: 20px; box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+h1 { margin: 0 0 12px; text-align: center; }
+.toolbar { display:flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 12px; }
+#chat { height: 460px; overflow-y: auto; border:1px solid #e5e7eb; border-radius: 10px; padding: 10px; background:#fafafa; }
+.msg { margin: 8px 0; padding: 10px 12px; border-radius: 10px; max-width: 80%; white-space: pre-wrap; line-height: 1.65; }
+.msg.user { background:#d1fae5; margin-left: auto; }
+.msg.bot  { background:#e5e7eb; margin-right: auto; }
+.input { display:flex; gap: 8px; margin-top: 12px; }
+textarea#box { flex:1; resize: vertical; padding: 10px; }
+button { background:#2563eb; color:#fff; border:none; border-radius: 8px; padding: 8px 12px; cursor:pointer; }
+button:disabled { background:#a5b4fc; cursor:not-allowed; }
+.eval { margin-top: 8px; color:#6b7280; font-size: 14px; }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center; }
+.modal.hide { display:none; }
+.card { width: 680px; background:#fff; border-radius: 12px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+.card h3 { margin: 0 0 10px; }
+.card label { display:block; margin: 8px 0; }
+.card input, .card textarea { width:100%; padding:8px; }
+.right { text-align:right; margin-top: 10px; display:flex; gap:8px; justify-content:flex-end; }
+#mic { background:#10b981; }

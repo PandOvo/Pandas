@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI 角色扮演</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="wrap">
+  <h1>🎭 AI 角色扮演</h1>
+
+  <div class="toolbar">
+    <label>选择角色：
+      <select id="role"></select>
+    </label>
+    <label><input type="checkbox" id="mem" checked> 开启记忆</label>
+    <label><input type="checkbox" id="tts" checked> 语音播报</label>
+    <button id="addRoleBtn">➕ 自定义角色</button>
+    <button id="clearBtn">🧹 清空会话</button>
+  </div>
+
+  <div id="chat"></div>
+
+  <div class="input">
+    <button id="mic">🎙️</button>
+    <textarea id="box" rows="2" placeholder="说点什么……（Enter 发送 / Shift+Enter 换行）"></textarea>
+    <button id="send">发送</button>
+  </div>
+
+  <div class="eval" id="eval"></div>
+</div>
+
+<!-- 自定义角色弹窗 -->
+<div id="modal" class="modal hide">
+  <div class="card">
+    <h3>新建角色</h3>
+    <label>名称 <input id="rn" placeholder="例如：三国·诸葛亮" /></label>
+    <label>简介 <input id="rd" placeholder="一句话描述（可选）" /></label>
+    <label>人格设定（system prompt）<textarea id="rsp" rows="5"
+      placeholder="示例：你是诸葛亮，语气睿智，以类比和反问启发思考，避免直给答案。"></textarea></label>
+    <div class="right">
+      <button id="cancel">取消</button>
+      <button id="save">保存</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+
