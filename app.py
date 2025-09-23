@@ -20,8 +20,8 @@ with open("roles.json", "r", encoding="utf-8") as f:
     ROLE_LIBRARY = json.load(f)
 
 # 会话、缓存、反馈
-SESSIONS = defaultdict(list)       # {sid: [{"role":"user/assistant","content":"..."}]}
-CACHE    = {}                      # {(role_id, sha(user_text)): reply}
+SESSIONS = defaultdict(list)
+CACHE    = {}
 FEEDBACK_LOG = "feedback_log.csv"
 CALL_COUNTER = defaultdict(lambda: {"min_ts": 0, "count": 0})
 MAX_CALLS_PER_MIN = 20
@@ -47,7 +47,7 @@ def autoscore(reply: str, role_name: str, last_user: str) -> dict:
     if role_name and (role_name.split("·")[0] in reply or role_name in reply):
         score += 1; reasons.append("包含角色元素")
     if "?" in last_user or re.search(r"(吗|？|\?)", last_user):
-        # 简单判定是否回应问题：有没有疑问句式或“回答性词”
+        # 简单判定是否回应问题
         if re.search(r"(是的|当然|可以|会|可以试试|建议|因为|原因|首先|其次|我认为)", reply):
             score += 1; reasons.append("回应用户问题")
     return {"score": score, "reasons": reasons}
@@ -80,10 +80,6 @@ def list_roles():
 
 @app.route("/api/roles", methods=["POST"])
 def add_role():
-    """
-    接收：{ "name": "...", "system_prompt": "...", "desc": "" }
-    生成 role_id（小写+下划线），只保存在内存中（比赛演示足够）
-    """
     data = request.get_json(force=True)
     name = (data.get("name") or "").strip()
     sp   = (data.get("system_prompt") or "").strip()

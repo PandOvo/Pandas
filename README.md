@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+[README.md](https://github.com/user-attachments/files/22467741/README.md)
+>>>>>>> a493094efa6cd81dcc45cd6482a7e2cf66beab7e
 # AI 角色扮演互动平台 —— 产品说明文档（初稿）
 
 ## 一、产品概述
