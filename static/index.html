@@ -18,8 +18,9 @@
         <label class="chk"><input type="checkbox" id="mem" checked> 开启记忆</label>
         <label class="chk"><input type="checkbox" id="tts" checked> 语音播报</label>
 
-        <button id="addRoleBtn" class="btn ghost">➕ 自定义角色</button>
-        <button id="clearBtn"   class="btn ghost">🧹 清空会话</button>
+        <!-- 可选：只做占位，不再弹窗 -->
+        <button id="addRoleBtn" class="btn ghost" type="button">➕ 自定义角色</button>
+        <button id="clearBtn"   class="btn ghost" type="button">🧹 清空会话</button>
       </div>
     </div>
   </header>
@@ -27,20 +28,25 @@
   <!-- 中间主体：左右分栏 -->
   <div class="layout container">
     <!-- 左侧：聊天主区 -->
-    <section class="main">
-      <main id="chat" aria-live="polite"></main>
+    <section class="main" aria-label="聊天区">
+      <!-- ★★★ 关键：聊天消息内层容器，JS 会把消息插到这里 ★★★ -->
+      <main id="chat" aria-live="polite">
+        <div id="chatBody"></div>
+      </main>
 
+      <!-- 底部输入栏 -->
       <footer id="input-bar">
-        <button id="mic"  class="btn icon" title="语音输入">🎤</button>
+        <button id="mic"  class="btn icon" type="button" title="语音输入">🎤</button>
         <textarea id="box" rows="2" placeholder="说点什么……（Enter 发送 / Shift+Enter 换行）"></textarea>
-        <button id="send" class="btn primary">发送</button>
+        <button id="send" class="btn primary" type="button">发送</button>
       </footer>
 
-      <div id="eval" class="eval">加载中...</div>
+      <!-- 自动评分/状态 -->
+      <div id="eval" class="eval"></div>
     </section>
 
-    <!-- 右侧：新建角色侧栏 -->
-    <aside class="sidebar">
+    <!-- 右侧：新建角色侧栏（即时生效） -->
+    <aside class="sidebar" aria-label="新建角色">
       <h3>新建角色</h3>
 
       <label class="field">
@@ -60,8 +66,8 @@
       </label>
 
       <div class="actions">
-        <button id="cancel" class="btn ghost">取消</button>
-        <button id="save"   class="btn primary">保存</button>
+        <button id="cancel" class="btn ghost" type="button">取消</button>
+        <button id="save"   class="btn primary" type="button">保存</button>
       </div>
       <p class="hint">提示：点击“保存”后，新角色会出现在顶部角色下拉中，立即可用。</p>
     </aside>
