@@ -49,14 +49,9 @@ function createMsg(role, text) {
   bubble.className = "bubble";
   bubble.textContent = text;
 
-  // user 在右，bot 在左
-  if (role === "user") {
-    wrap.appendChild(bubble);
-    wrap.appendChild(avatar);
-  } else {
-    wrap.appendChild(avatar);
-    wrap.appendChild(bubble);
-  }
+  if (role === "user") { wrap.appendChild(bubble); wrap.appendChild(avatar); }
+  else { wrap.appendChild(avatar); wrap.appendChild(bubble); }
+
   return wrap;
 }
 
@@ -64,6 +59,27 @@ function push(role, text) {
   const node = createMsg(role, text);
   getChatBody().appendChild(node);
   els.chat.scrollTop = els.chat.scrollHeight;
+}
+
+// ====== 发送中状态 & 输入中提示 ======
+function setSending(flag) {
+  els.send.disabled = flag;
+  els.mic.disabled  = flag;
+  els.send.textContent = flag ? "发送中…" : "发送";
+  if (flag) showTyping(); else hideTyping();
+}
+function showTyping() {
+  if (document.getElementById("typing")) return;
+  const t = document.createElement("div");
+  t.id = "typing";
+  t.className = "typing";
+  t.innerHTML = `<span>对方正在输入</span><span class="dot"></span><span class="dot"></span><span class="dot"></span>`;
+  getChatBody().appendChild(t);
+  els.chat.scrollTop = els.chat.scrollHeight;
+}
+function hideTyping() {
+  const t = document.getElementById("typing");
+  if (t && t.parentNode) t.parentNode.removeChild(t);
 }
 
 // ====== TTS（浏览器内置）======
@@ -81,8 +97,7 @@ async function sendText(txt) {
 
   push("user", txt);
   els.box.value = "";
-  els.send.disabled = true;
-  els.mic.disabled = true;
+  setSending(true);
 
   try {
     const r = await fetch("/api/chat", {
@@ -98,6 +113,7 @@ async function sendText(txt) {
     const data = await r.json();
     if (data.error) { push("bot", "⚠️ " + data.error); return; }
 
+    hideTyping();
     push("bot", data.reply);
     speak(data.reply);
     lastPair = { user: txt, reply: data.reply };
@@ -105,10 +121,10 @@ async function sendText(txt) {
     const meta = data.auto_eval || { score: 0, reasons: [] };
     els.eval.textContent = `自动评分：${meta.score}/3  ${meta.reasons.join(" · ")}`;
   } catch (e) {
+    hideTyping();
     push("bot", "网络错误：" + e.message);
   } finally {
-    els.send.disabled = false;
-    els.mic.disabled = false;
+    setSending(false);
   }
 }
 
@@ -117,8 +133,6 @@ els.send.addEventListener("click", () => sendText(els.box.value));
 els.box.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendText(els.box.value); }
 });
-
-// 清空会话
 els.clear.addEventListener("click", async () => {
   await fetch("/api/clear", {
     method: "POST",
@@ -131,7 +145,7 @@ els.clear.addEventListener("click", async () => {
 });
 
 // 右侧：保存/取消新角色
-els.save.addEventListener("click", async () => {
+els.save?.addEventListener("click", async () => {
   const name = els.rn.value.trim();
   const desc = els.rd.value.trim();
   const sp   = els.rsp.value.trim();
@@ -145,14 +159,12 @@ els.save.addEventListener("click", async () => {
   const data = await r.json();
   if (data.error) { alert(data.error); return; }
 
-  // 清空输入并刷新角色列表
   els.rn.value = els.rd.value = els.rsp.value = "";
   await loadRoles();
   els.role.value = data.role_id;
   push("bot", `✅ 已创建新角色：${name}`);
 });
-
-els.cancel.addEventListener("click", () => {
+els.cancel?.addEventListener("click", () => {
   els.rn.value = els.rd.value = els.rsp.value = "";
 });
 
