@@ -113,6 +113,13 @@ body{
   font-size: 18px; user-select:none;
 }
 
+.msg .time {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  text-align: right;
+}
+
 /* 气泡淡入动画 */
 @keyframes bubbleIn{
   from{ opacity:0; transform: translateY(6px) scale(.98); }

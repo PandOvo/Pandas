@@ -61,6 +61,27 @@ function push(role, text) {
   els.chat.scrollTop = els.chat.scrollHeight;
 }
 
+function push(role, text) {
+  const div = document.createElement("div");
+  div.className = `msg ${role}`;
+
+  // 气泡容器
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = text;
+
+  // 时间戳
+  const time = document.createElement("div");
+  time.className = "time";
+  const now = new Date();
+  time.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  div.appendChild(bubble);
+  div.appendChild(time);
+  els.chat.appendChild(div);
+  els.chat.scrollTop = els.chat.scrollHeight;
+}
+
 // ====== 发送中状态 & 输入中提示 ======
 function setSending(flag) {
   els.send.disabled = flag;
