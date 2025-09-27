@@ -38,7 +38,7 @@ def check_rate_limit(sid: str) -> bool:
     box["count"] += 1
     return box["count"] <= MAX_CALLS_PER_MIN
 
-# —— 简单自动评分：长度/是否包含角色名/是否回应问号 —— #
+# —— 自动评分：长度/是否包含角色名/是否回应问号 —— #
 def autoscore(reply: str, role_name: str, last_user: str) -> dict:
     score = 0
     reasons = []
@@ -71,7 +71,7 @@ def call_llm(system_prompt: str, user_text: str, history_msgs=None) -> str:
 def index():
     return send_from_directory("static", "index.html")
 
-# ---- 角色相关 ----
+# ---- 角色 ----
 @app.route("/api/roles", methods=["GET"])
 def list_roles():
     roles = [{"id": rid, "name": v.get("name", rid), "desc": v.get("desc", "")}
