@@ -42,14 +42,14 @@
   - 提供 REST API：
     - `POST /chat`：接收用户输入，返回 AI 回复  
     - `GET /roles`：获取角色列表  
-    - `POST /roles`：新增自定义角色  
+    - `POST /roles`：新建角色  
     - `POST /clear`：清空会话  
     - `POST /feedback`：用户反馈（可选）  
   - 集成 OpenAI API  
 
 ### 3. 配置模块
 - **roles.json**  
-  存储预设角色（例如：孔子、福尔摩斯、哈利波特）。  
+  存储预设角色（例如：苏格拉底、福尔摩斯、哈利波特）。  
 - **.env**  
   保存 `OPENAI_API_KEY`，避免硬编码。  
 
