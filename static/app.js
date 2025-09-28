@@ -151,17 +151,36 @@ async function sendText(txt) {
 
 // ====== 事件绑定 ======
 els.send.addEventListener("click", () => sendText(els.box.value));
+
 els.box.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendText(els.box.value); }
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendText(els.box.value);
+  }
 });
+
 els.clear.addEventListener("click", async () => {
-  await fetch("/api/clear", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ session_id: sid }),
-  });
-  getChatBody().innerHTML = "";
+  try {
+    await fetch("/api/clear", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_id: sid }),
+    });
+  } catch (e) {
+    console.warn("clear api error:", e);
+  }
+
+  // 1) 清空聊天 DOM
+  els.chat.replaceChildren();
+
+  // 2) 重置状态
+  lastPair = { user: "", reply: "" };
   els.eval.textContent = "";
+
+  // 3) 取消正在队列中的语音播报（若启用 TTS）
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
   push("bot", "✅ 已清空会话。");
 });
 
